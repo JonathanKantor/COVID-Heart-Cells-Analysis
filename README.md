@@ -32,8 +32,9 @@ Once you have completed the installation, run the analysis using the following s
 
 1. Navigate to the project directory.
 1. Launch R or RStudio.
-1. Open the main analysis script, e.g., analyze_covid_heart_stem_cells.R.
+1. Open the main analysis script, e.g., analysis.R.
 1. Modify the script if needed to specify file paths or parameters.
+1. Run the script to perform the analysis.
 
 # Contributing
 I welcome any contributions to this  project. If you find any issues or have suggestions for improvements, please feel free to open an issue or submit a pull request. Your contributions can help advance the understanding of COVID-19's impact on our hearts.
@@ -50,9 +51,3 @@ If you have any questions or would like to collaborate on related projects, plea
 Jonathan Kantor: kantorj@umich.edu
 Ravi Iyengar: ravi.iyengar@mssm.edu
 Jens Hansen: jens.hansen@mssm.edu
-
-
-
-
-
-1. Run the script to perform the analysis.
