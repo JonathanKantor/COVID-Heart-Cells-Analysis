@@ -1,0 +1,100 @@
+# Import Libraries
+library(Seurat)
+library(ggplot2)
+library(sctransform)
+library(patchwork)
+library(cowplot)
+library(readxl)
+
+# Function to process a single directory
+process_directory <- function(directory) {
+  m <- strsplit(directory, '_')
+  cond <- m[[1]][3]
+  patient <- paste(m[[1]][1], m[[1]][2], sep = '_')
+  subdir <- paste("C:/Users/Jonathan/Downloads/IPSC_data/", directory, sep = "")
+
+  if (cond == "Mock") {
+    # Process Mock Data
+    Mock.data <- Read10X(data.dir = paste(subdir, "/raw_feature_bc_matrix", sep = ""))
+    Mock <- CreateSeuratObject(counts = Mock.data, min.cells = 3, min.features = 1, project = patient)
+    Mock[["percent.mt"]] <- PercentageFeatureSet(Mock, pattern = "^MT-")
+    Mock <- subset(Mock, subset = nFeature_RNA > 500)
+    Mock$stim <- "Mock"
+    Mock <- SCTransform(Mock, method = "glmGamPoi", vars.to.regress = "percent.mt", verbose = FALSE)
+    return(list(Mock))
+  } 
+else if{
+ # Process CoV-ILs Data
+    CoV-ILs.data <- Read10X(data.dir = paste(subdir, "/raw_feature_bc_matrix", sep = ""))
+    CoV-ILs <- CreateSeuratObject(counts = CoV-ILs.data, min.cells = 3, min.features = 1, project = patient)
+    CoV-ILs[["percent.mt"]] <- PercentageFeatureSet(CoV-ILs, pattern = "^MT-")
+
+    # Remove hCov-19 Gene
+    indexhCov19 <- grep("hCov-19", rownames(CoV))
+    indexKeep <- 1:length(rownames(CoV))
+    indexKeep <- indexKeep[!indexKeep %in% indexhCov19]
+    CoV-ILs <- CoV-ILs[indexKeep,]
+    CoV-ILs <- subset(CoV-ILs, subset = nFeature_RNA > 500)
+    CoV-ILs$stim <- "CoV-ILs"
+    CoV-ILs <- SCTransform(CoV-ILs, method = "glmGamPoi", vars.to.regress = "percent.mt", verbose = FALSE)
+    return(list(CoV-ILs))
+}
+else{
+    # Process CoV Data
+    CoV.data <- Read10X(data.dir = paste(subdir, "/raw_feature_bc_matrix", sep = ""))
+    CoV <- CreateSeuratObject(counts = CoV.data, min.cells = 3, min.features = 1, project = patient)
+    CoV[["percent.mt"]] <- PercentageFeatureSet(CoV, pattern = "^MT-")
+
+    # Remove hCov-19 Gene
+    indexhCov19 <- grep("hCov-19", rownames(CoV))
+    indexKeep <- 1:length(rownames(CoV))
+    indexKeep <- indexKeep[!indexKeep %in% indexhCov19]
+    CoV <- CoV[indexKeep,]
+
+    CoV <- subset(CoV, subset = nFeature_RNA > 500)
+    CoV$stim <- "CoV"
+    CoV <- SCTransform(CoV, method = "glmGamPoi", vars.to.regress = "percent.mt", verbose = FALSE)
+    return(list(CoV))
+  }
+}
+
+# Main Script
+dirs <- list.files(path = "C:/Users/Jonathan/Downloads/IPSC_data/", recursive = F, full.names = F)
+ipsc.list <- lapply(dirs, process_directory)
+
+# Select Integration Features
+features <- SelectIntegrationFeatures(object.list = ipsc.list, nfeatures = 3000)
+ipsc.list <- PrepSCTIntegration(object.list = ipsc.list, anchor.features = features)
+
+# Integrate Data
+ipsc.anchors <- FindIntegrationAnchors(object.list = ipsc.list, normalization.method = "SCT", anchor.features = features)
+ipsc.combined.sct <- IntegrateData(anchorset = ipsc.anchors, normalization.method = "SCT")
+
+# Perform Dimensionality Reduction
+ipsc.combined.sct <- RunPCA(ipsc.combined.sct, verbose = FALSE)
+ipsc.combined.sct <- RunUMAP(ipsc.combined.sct, reduction = "pca", dims = 1:30)
+
+# Find Neighbors and Cluster
+ipsc.combined.sct <- FindNeighbors(ipsc.combined.sct, reduction = "pca", dims = 1:20)
+ipsc.combined.sct <- FindClusters(ipsc.combined.sct, resolution = 0.5)
+
+# Seperate Between Treatment Conditions
+DimPlot(ipsc.combined.sct, reduction = "umap", split.by = "stim")
+
+# Create Table of Cluster and Number of Cells
+pt <- table(Idents(ipsc.combined.sct), ipsc.combined.sct$orig.ident, ipsc.combined.sct$stim)
+pt <- as.data.frame(pt)
+pt$Var1 <- as.character(pt$Var1)
+
+# Calculate Percent of Condition
+pt <- pt %>%
+  group_by(Var3) %>%
+  mutate(Sum = sum(Freq),
+         PercentTotal = 100 * Freq / Sum) %>%
+  ungroup()
+
+
+
+
+
+
