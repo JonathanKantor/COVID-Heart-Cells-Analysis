@@ -48,6 +48,6 @@ I express our gratitude to the Icahn School of Medicine at Mount Sinai for suppo
 # Contact
 If you have any questions or would like to collaborate on related projects, please feel free to contact us:
 
-Jonathan Kantor: kantorj@umich.edu
-Ravi Iyengar: ravi.iyengar@mssm.edu
-Jens Hansen: jens.hansen@mssm.edu
+Jonathan Kantor: kantorj@umich.edu  
+Ravi Iyengar: ravi.iyengar@mssm.edu  
+Jens Hansen: jens.hansen@mssm.edu  
