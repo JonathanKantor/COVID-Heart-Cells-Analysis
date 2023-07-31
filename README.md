@@ -13,7 +13,7 @@ This project investigates the potential long-term impact of COVID-19 on heart he
 - <ins> Contact
 
 # Repository Contents
-/scripts: Holds the R scripts used for data preprocessing, analysis, and visualization  
+/analysis: Holds the R scripts used for data preprocessing, analysis, and visualization  
 /results: Contains the generated plots and analysis outputs.
 
 # Research Paper
