@@ -172,7 +172,7 @@ overlapComparison <- function(sortedMock, pathway, colnames) {
   return(list(pDf = pDf, pMat = pMat))
 }
 
-#Compare Against Patrick Ellinor Heart Failure Data Set
+#Compare Against Patrick Ellinor Healthy Heart Data Set
 HF <- read_excel("C:/Users/Jonathan/Downloads/mature.xlsx")
 HF = subset(PE, Marker>0)
 colnames <- c("Fibroblast I","Fibroblast II", "Atrial Cardiomyocyte", "Ventricular Cardiomyocyte I", "Ventricular Cardiomyocyte II", "Pericyte","Macrophage", "Endothelium I", "Endothelium II", "Adipocyte", "Vascular Smooth Muscle", "Fibroblast III", "Ventricular Cardiomyocyte III", "Neuronal", "Lymphocyte")
