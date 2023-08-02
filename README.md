@@ -17,7 +17,7 @@ This project investigates the potential long-term impact of COVID-19 on heart he
 /results: Contains the generated plots and analysis outputs.
 
 # Research Paper
-For a detailed understanding of the methods and findings, please refer to our research paper: [paper]
+For a detailed understanding of the methods and findings, please reach out to access my research paper.
 
 # Installation
 To set up this project locally, follow these steps:
