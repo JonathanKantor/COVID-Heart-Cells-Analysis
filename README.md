@@ -36,13 +36,13 @@ Once you have completed the installation, run the analysis using the following s
 1. Run the script to perform the analysis.
 
 # Contributing
-I welcome any contributions to this  project. If you find any issues or have suggestions for improvements, please feel free to open an issue or submit a pull request. Your contributions can help advance the understanding of COVID-19's impact on our hearts.
+I welcome any contributions to this project. If you find any issues or have suggestions for improvements, please feel free to open an issue or submit a pull request. Your contributions can help advance the understanding of COVID-19's impact on our hearts.
 
 # License
 This project is licensed under the MIT License.
 
 # Acknowledgments
-I express our gratitude to the Icahn School of Medicine at Mount Sinai for supporting this research and providing access to resources. I am also thankful to Dr. Ravi Iyengar and Dr. Jens Hansen for their valuable guidance and mentorship.
+I express my deepest gratitude to the Icahn School of Medicine at Mount Sinai for supporting this research and providing access to resources. I am also thankful to Dr. Ravi Iyengar and Dr. Jens Hansen for their valuable guidance and mentorship.
 
 # Contact
 If you have any questions or would like to collaborate on related projects, please feel free to contact us:
